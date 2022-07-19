@@ -22,19 +22,28 @@ on command "setblock -45 55 -155 redstone_block":
 on command "setblock -20 55 -133 redstone_block":
 	if sender is not console:
 		cancel event
-		if "%command sender's tags%" = "forcestart, replayer and player" or "forcestart and player" or "replayer and player" or "player":
+		command sender has tag "player":
 			make player run command "execute @s[tag=player] ~ ~ ~ /minecraft:setblock -20 55 -133 redstone_block" as op
 			execute console command "tellraw @a ""\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"""
 			#wait 1 second
 			#make player run command "tp -26.5 56 -170.5" as op
 			#make player run command "scoreboard players set @e[tag=story] forcestart 1" as op
+
+on command "q":
+	cancel event
+	execute player command "setblock -45 55 -155 redstone_block"
+
+on command "r":
+	cancel event
+	execute player command "setblock -20 55 -133 redstone_block"
 		
 on command "bug":
 	if sender is not console:
 		cancel event
 		execute console command "setblock -45 55 -155 redstone_block"
 on quit:
-	if "%command sender's tags%" = "replayer and player" or "player" or "forcestart, replayer and player" or "forcestart and player":
+	execute console command "scoreboard players tag %player% remove parkour"
+	command sender has tag "player":
 		execute console command "setblock -45 55 -155 redstone_block"
 		execute console command "scoreboard players tag %player% remove player"
 
@@ -42,6 +51,8 @@ on join:
 	make player run command "gamemode 2" as op
 	execute console command "clear %player%"
 	execute console command "effect %player% clear"
+	execute console command "execute @a[tag=player] ~ ~ ~ /scoreboard players tag %player% add spectator"
+	execute console command "execute @a[tag=player] ~ ~ ~ /title %player% times 0 70 0"
 		
 on command "scoreboard players set @e[tag=story] click2 2":
 	if sender is not console:
@@ -80,26 +91,29 @@ on command "iwttab":
 
 on command "dnsxj":
 	cancel event
-	execute console command "setblock -21 55 -153 redstone_block"
+	command sender doesn't have tag "player":
+		command sender doesn't have tag "spectator":
+			make player run command "setblock -21 55 -153 redstone_block" as op
 
 command /infotryhard [<player>]:
 	trigger:
 		execute console command "tellraw %argument% {""text"":""\n\n경고!"",""extra"":[{""text"":""\n\nTRYHARD"",""color"":""dark_purple"",""extra"":[{""text"":"" 모드는 극악의 난이도로, 현재 이 서버에서 가장 어려운 난이도를 선사합니다!\n\n참고로 제작자는 깼습니다!"",""color"":""white""}]}]}"
 
+command /quitparkour [<player>]:
+	trigger:
+		execute console command "tp %argument% -35 56 -171"
+		wait a second
+		execute console command "scoreboard players tag %argument% remove parkour"
+		execute console command "scoreboard players tag %argument% remove parkour2"
+		execute console command "effect %argument% clear"
+
 command /fs [<string>]:
 	trigger:
 		if arg 1 is not set:
-			if "%command sender's tags%" = "forcestart, replayer and player" or "forcestart and player" or "forcestart and replayer" or "forcestart":
+			command sender has tag "forcestart":
 				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &a활성화&f상태입니다."""
-			if "%command sender's tags%" = "replayer and player" or "player" or "replayer":
+			command sender doesn't have tag "forcestart":
 				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &c비활성화&f상태입니다."""
-			if "%command sender's tags%" = "forcestart, spectator and replayer" or "forcestart and spectator":
-				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &a활성화&f상태입니다."""
-			if "%command sender's tags%" = "spectator and replayer" or "spectator":
-				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &c비활성화&f상태입니다."""
-			if "%command sender's tags%" = "":
-				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &c비활성화&f상태입니다."""
-			execute console command "tellraw %player% ""&f[SPEEEEEEED!!!!] &b사용법: /fs on 또는 /fs off 사용"""
 		if arg 1 is "on":
 			make player run command "scoreboard players tag %player% add forcestart" as op
 			execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &a빠른 시작 활성화됨"""
