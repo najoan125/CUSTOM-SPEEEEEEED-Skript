@@ -22,7 +22,7 @@ on command "setblock -45 55 -155 redstone_block":
 on command "setblock -20 55 -133 redstone_block":
 	if sender is not console:
 		cancel event
-		command sender has tag "player":
+		if "%command sender's tags%" = "forcestart, replayer and player" or "forcestart and player" or "replayer and player" or "player":
 			make player run command "execute @s[tag=player] ~ ~ ~ /minecraft:setblock -20 55 -133 redstone_block" as op
 			execute console command "tellraw @a ""\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"""
 			#wait 1 second
@@ -43,7 +43,7 @@ on command "bug":
 		execute console command "setblock -45 55 -155 redstone_block"
 on quit:
 	execute console command "scoreboard players tag %player% remove parkour"
-	command sender has tag "player":
+	if "%command sender's tags%" = "replayer and player" or "player" or "forcestart, replayer and player" or "forcestart and player":
 		execute console command "setblock -45 55 -155 redstone_block"
 		execute console command "scoreboard players tag %player% remove player"
 
@@ -110,10 +110,17 @@ command /quitparkour [<player>]:
 command /fs [<string>]:
 	trigger:
 		if arg 1 is not set:
-			command sender has tag "forcestart":
+			if "%command sender's tags%" = "forcestart, replayer and player" or "forcestart and player" or "forcestart and replayer" or "forcestart":
 				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &a활성화&f상태입니다."""
-			command sender doesn't have tag "forcestart":
+			if "%command sender's tags%" = "replayer and player" or "player" or "replayer":
 				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &c비활성화&f상태입니다."""
+			if "%command sender's tags%" = "forcestart, spectator and replayer" or "forcestart and spectator":
+				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &a활성화&f상태입니다."""
+			if "%command sender's tags%" = "spectator and replayer" or "spectator":
+				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &c비활성화&f상태입니다."""
+			if "%command sender's tags%" = "":
+				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &c비활성화&f상태입니다."""
+			execute console command "tellraw %player% ""&f[SPEEEEEEED!!!!] &b사용법: /fs on 또는 /fs off 사용"""
 		if arg 1 is "on":
 			make player run command "scoreboard players tag %player% add forcestart" as op
 			execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &a빠른 시작 활성화됨"""
