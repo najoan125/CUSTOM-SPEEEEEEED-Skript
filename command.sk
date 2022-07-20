@@ -37,10 +37,10 @@ on command "r":
 	cancel event
 	execute player command "setblock -20 55 -133 redstone_block"
 		
-on command "bug":
-	if sender is not console:
-		cancel event
-		execute console command "setblock -45 55 -155 redstone_block"
+#on command "bug":
+#	if sender is not console:
+#		cancel event
+#		execute console command "setblock -45 55 -155 redstone_block"
 on quit:
 	execute console command "scoreboard players tag %player% remove parkour"
 	command sender has tag "player":
@@ -121,6 +121,21 @@ command /fs [<string>]:
 		if arg 1 is "off":
 			make player run command "scoreboard players tag %player% remove forcestart" as op
 			execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &c빠른 시작 비활성화됨"""
+			
+command /한지양머 [<string>]:
+	trigger:
+		if arg 1 is not set:
+			command sender has tag "han":
+				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 한지양머 모드가 &a활성화&f상태입니다."""
+			command sender doesn't have tag "han":
+				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 한지양머 모드가 &c비활성화&f상태입니다."""
+			execute console command "tellraw %player% ""&f[SPEEEEEEED!!!!] &b사용법: /한지양머 on 또는 /한지양머 off 사용"""
+		if arg 1 is "on":
+			make player run command "scoreboard players tag %player% add han" as op
+			execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &a한지양머 모드 활성화됨"""
+		if arg 1 is "off":
+			make player run command "scoreboard players tag %player% remove han" as op
+			execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &c한지양머 모드 비활성화됨"""
 
 command /macro [<string>]:
 	trigger:
