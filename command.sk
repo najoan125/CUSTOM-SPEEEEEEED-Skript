@@ -114,6 +114,7 @@ command /fs [<string>]:
 				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &a활성화&f상태입니다."""
 			command sender doesn't have tag "forcestart":
 				execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &f현재 빠른 시작이 &c비활성화&f상태입니다."""
+			execute console command "tellraw %player% ""&f[SPEEEEEEED!!!!] &b사용법: /fs on 또는 /fs off 사용"""
 		if arg 1 is "on":
 			make player run command "scoreboard players tag %player% add forcestart" as op
 			execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &a빠른 시작 활성화됨"""
