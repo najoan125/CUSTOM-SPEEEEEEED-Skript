@@ -78,17 +78,6 @@ on command "execute @s[tag=replayer,score_re_min=1] ~ ~ ~ /setblock -42 55 -152 
 	cancel event
 	make player run command "minecraft:execute @s[tag=replayer,score_re_min=1] ~ ~ ~ /setblock -73 55 -137 minecraft:redstone_block" as op
 
-on command "l":
-	cancel event
-	execute player command "mv tp world"
-
-on command "pg":
-	cancel event
-	execute player command "mv tp playground"
-
-on command "iwttab":
-	execute console command "ban %player%"
-
 on command "dnsxj":
 	cancel event
 	command sender doesn't have tag "player":
@@ -105,11 +94,12 @@ command /discord [<player>]:
 
 command /quitparkour [<player>]:
 	trigger:
-		execute console command "tp %argument% -35 56 -171"
-		wait a second
-		execute console command "scoreboard players tag %argument% remove parkour"
-		execute console command "scoreboard players tag %argument% remove parkour2"
-		execute console command "effect %argument% clear"
+		if sender is not player:
+			execute console command "tp %argument% -35 56 -171"
+			wait a second
+			execute console command "scoreboard players tag %argument% remove parkour"
+			execute console command "scoreboard players tag %argument% remove parkour2"
+			execute console command "effect %argument% clear"
 
 command /fs [<string>]:
 	trigger:
@@ -140,17 +130,6 @@ command /한지양머 [<string>]:
 		if arg 1 is "off":
 			make player run command "scoreboard players tag %player% remove han" as op
 			execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &c한지양머 모드 비활성화됨"""
-
-command /macro [<string>]:
-	trigger:
-		if arg 1 is not set:
-			execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &b사용법: /macro on 또는 /macro off 사용"""
-		if arg 1 is "on":
-			make player run command "setblock -32 90 -196 redstone_block" as op
-			execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &a매크로 활성화됨"""
-		if arg 1 is "off":
-			make player run command "setblock -32 90 -196 air" as op
-			execute console command "tellraw %player% ""\n\n&f[SPEEEEEEED!!!!] &c매크로 비활성화됨"""
 
 command /ef [<string>]:
         trigger:
